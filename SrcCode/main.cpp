@@ -7,7 +7,7 @@ public:
     string emailID;
     string ext;
     int room;
-    string mobileNumber;
+    string mobileNumber; 
     facultyNode *next;
 
     facultyNode(string name, string emailID, string ext, int room, string mobileNumber)
@@ -100,5 +100,6 @@ int main()
     fl.insertFacMem("Al Amin", "alam1n@hotmail.com", "225", 69, "01641049756");
     fl.travers();
     cout<<"Hello";
+    cout<<"test";
     return 0;
 }

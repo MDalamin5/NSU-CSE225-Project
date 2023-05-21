@@ -1,4 +1,4 @@
-Faculty Class
+# Faculty Class
 The code defines two classes: Faculty and FacultyLinkedList. The Faculty class represents a faculty member and has the following properties:
 
 name: The faculty member's name

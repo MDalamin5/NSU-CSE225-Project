@@ -4,15 +4,17 @@ class facultyNode
 {
 public:
     string name;
+    string designation;
     string emailID;
     string ext;
     int room;
     string mobileNumber; 
     facultyNode *next;
 
-    facultyNode(string name, string emailID, string ext, int room, string mobileNumber)
+    facultyNode(string name, string designation, string emailID, string ext, int room, string mobileNumber)
     {
         this->name = name;
+        this->designation=designation;
         this->emailID = emailID;
         this->ext = ext;
         this->room = room;
@@ -30,9 +32,9 @@ public:
         head = NULL;
         size = 0;
     }
-    void insertFacMem(string name, string emailID, string ext, int room, string mobileNumber)
+    void insertFacMem(string name, string designation, string emailID, string ext, int room, string mobileNumber)
     {
-        facultyNode *newNode = new facultyNode(name, emailID, ext, room, mobileNumber);
+        facultyNode *newNode = new facultyNode(name, designation, emailID, ext, room, mobileNumber);
         if (head == NULL)
         {
             head = newNode;
@@ -58,46 +60,11 @@ public:
         cout << endl;
     }
 };
-class courseNode
-{
-public:
-    int sl_no;
-    string courseCode;
-    string courseTitle;
-    float credits;
-    string courseType;
-    string PCC;
-    courseNode *next;
-    courseNode(int sl_no, string courseCode, string courseTitle, float credits, string courseType, string PCC)
-    {
-        this->sl_no = sl_no;
-        this->courseCode = courseCode;
-        this->courseTitle = courseTitle;
-        this->credits = credits;
-        this->courseType = courseType;
-        this->PCC = PCC;
-        this->next = NULL;
-    }
-    void insertCourse(int sl_no, string courseCode, string courseTitle, float credits, string courseType, string PPC)
-    {
-        
-    }
-};
-class courseList
-{
-public:
-    courseNode *head;
-    int courseListSize;
-    courseList()
-    {
-        head = NULL;
-        courseListSize = 0;
-    }
-};
+
 int main()
 {
     faculty fl;
-    fl.insertFacMem("Al Amin", "alam1n@hotmail.com", "225", 69, "01641049756");
+    fl.insertFacMem("Al Amin", "Professor", "alam1n@hotmail.com", "111", 69, "0164104743");
     fl.travers();
     cout<<"Hello";
     cout<<"test";

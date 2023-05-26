@@ -1,5 +1,7 @@
+#include<iostream>
 #include <bits/stdc++.h>
 using namespace std;
+#define MAX_NAME_LEN 60
 void TempMain();
 class facultyNode
 {
@@ -33,8 +35,25 @@ public:
         head = NULL;
         size = 0;
     }
-    void insertFacMem(string name, string designation, string emailID, string ext, int room, string mobileNumber)
+    void insertFacMem()
     {
+
+        string name, designation, emailID, ext, mobileNumber;
+        int room;
+        fflush(stdin);
+        cout<<"Enter Faculty Full Name: ";
+        getline(cin,name); fflush(stdin);
+        cout<<"Enter Faulty Designation: ";
+        getline(cin,designation); fflush(stdin);
+        cout<<"Enter Faculty Email ID: ";
+        getline(cin,emailID); fflush(stdin);
+        cout<<"Enter EXT Nunber: ";
+        getline(cin,ext); fflush(stdin);
+        cout<<"Enter Room Number: ";
+        cin>>room; fflush(stdin);
+        cout<<"Enter Mobile Number: ";
+        getline(cin,mobileNumber); fflush(stdin);
+
         facultyNode *newNode = new facultyNode(name, designation, emailID, ext, room, mobileNumber);
         if (head == NULL)
         {
@@ -75,18 +94,15 @@ class manageRecord
     public:
     void addNewRecord()
     {
-        faculty f;
+        faculty fac;
         int choise;
     cout<<"Welcome to Course Management System"<<endl<<endl;
     while(1)
     {
-        cout<<"1. Add New Record"<<endl;
-        cout<<"2. Searching Records"<<endl;
-        cout<<"3. Update Data"<<endl;
-        cout<<"4. Generating Report"<<endl;
-        cout<<"5. Add Course"<<endl;
-        cout<<"6. Display My Course"<<endl;
-        cout<<"0. Exit from Here"<<endl;
+        cout<<"1. Add Faculty"<<endl;
+        cout<<"2. Add coutse"<<endl;
+        cout<<"3. add course Assignment"<<endl;
+        cout<<"0. Home Page"<<endl;
         
         cout<<endl<<"Please Enter Choice"<<" ";
         cin>>choise;
@@ -98,7 +114,7 @@ class manageRecord
             break;
 
             case 1:
-            //f.insertFacMem();
+            fac.insertFacMem();
             break;
 
             case 2:
@@ -165,7 +181,7 @@ void TempMain()
             exit(0);
 
             case 1:
-            mr.addCourse();
+            mr.addNewRecord();
             break;
 
             case 2:
@@ -195,8 +211,6 @@ void TempMain()
 }
 int main()
 {
-    faculty fl;
-    manageRecord mr;
     TempMain();
     return 0;
 }

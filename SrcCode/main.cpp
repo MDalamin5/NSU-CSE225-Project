@@ -60,23 +60,122 @@ public:
             head = newNode;
             size++;
             cout << endl
-                 << "Sussfully add data" << endl;
+                 <<size<<" Faculty Sussfully add" << endl;
             return;
         }
         newNode->next = head;
         head = newNode;
         size++;
-        cout << endl
-             << "Sussfully add data" << endl;
+        cout << endl<<size<<"<< Faculty Sussfully add" << endl;
     }
     //Read data or Searching 
     void readFacultyInfo()
     {
+        int searchOption;
+       cout<<"\n"<<"Please Chose Your Option"<<endl;
+       cout<<"1. Search By Name"<<endl;
+       cout<<"2. Search By Contact ID"<<endl;
+       cout<<"3. Search By Phone Number"<<endl;
+       cout<<"0. Go to home page"<<endl;
+       cout<<endl<<"Please Enter Your Choise: ";
+       cin>>searchOption;
+       switch(searchOption)
+       {
+        case 0:
+        TempMain();
+        break;
+
+        case 1:
+        searchByName();
+        break;
+
+        case 2:
+        searchByPhoneNo();
+        break;
+
+
+        default:
+        cout<<"You are entering invalid input\n\n Try again \n\n";
+        readFacultyInfo();
+
+       }
+    }
+ 
+ void searchByName()
+    {
+        string src_name;
+        cout<<"Please Enter the name: ";
+        fflush(stdin);
+        getline(cin,src_name);
+
+        facultyNode *a = head;
+        bool flag;
+        while(a!=NULL)
+        {
+            flag = true;
+            for(int i=0;i<src_name.length();i++)
+            {
+                if(src_name[i]!=a->name[i])
+                {
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag)
+            {
+                break;
+            }
+            a=a->next;
+        }
+        if(flag)
+        {
+            cout<<"Name Found "<<endl;
+        }
+        else
+        {
+            cout<<"Sorry! Name Not Found"<<endl;
+        }
         
     }
 
+// Search By Phone NUmber
+void searchByPhoneNo()
+    {
+        string src_ph_no;
+        cout<<"Please Enter the Phone Number: ";
+        fflush(stdin);
+        getline(cin,src_ph_no);
 
+        facultyNode *a = head;
+        bool flag;
+        while(a!=NULL)
+        {
+            flag = true;
+            for(int i=0;i<src_ph_no.length();i++)
+            {
+                if(src_ph_no[i]!=a->mobileNumber[i])
+                {
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag)
+            {
+                break;
+            }
+            a=a->next;
+        }
+        if(flag)
+        {
+            cout<<"Name Found ok"<<endl;
+        }
+        else
+        {
+            cout<<"Sorry! Name Not Found"<<endl;
+        }
+    }
 
+//display data
     void travers()
     {
         facultyNode *a = head;
@@ -92,9 +191,10 @@ public:
 class manageRecord
 {
     public:
+    faculty fac;
     void addNewRecord()
     {
-        faculty fac;
+        
         int choise;
     cout<<"Welcome to Course Management System"<<endl<<endl;
     while(1)
@@ -119,10 +219,12 @@ class manageRecord
 
             case 2:
             //c.insertCourse();
+            fac.readFacultyInfo();
             break;
 
             case 3:
             //ca.insertCourseAssign();
+            fac.travers();
             break;
 
             default:
@@ -133,11 +235,40 @@ class manageRecord
     }
     void seacrchigRecord()
     {
-        int input;
-        cout<<"Search"<<endl;
-        cout<<"Going to main"<<endl;
-        cin>>input;
+
+        int searchOption;
+       cout<<"\n"<<"Please Chose Your Option"<<endl;
+       cout<<"1. Search By Facuty Data"<<endl;
+       cout<<"2. Search By Course Data"<<endl;
+       cout<<"3. Search By Course Assignment"<<endl;
+       cout<<"0. Go to home page"<<endl;
+       cout<<endl<<"Please Enter Your Choise: ";
+       cin>>searchOption;
+       switch(searchOption)
+       {
+        case 0:
         TempMain();
+        break;
+
+        case 1:
+        fac.readFacultyInfo();
+        break;
+
+        case 2:
+        //searchByContactID();
+        //fac.travers();
+        break;
+
+        case 3:
+        //searchByPhoneNo();
+        //fac.searchByName();
+        break;
+
+        default:
+        cout<<"You are entering invalid input\n\n Try again \n\n";
+        seacrchigRecord();
+
+       }
 
     }
     void updateRecord()
@@ -154,7 +285,7 @@ class manageRecord
     }
     void displayCourse()
     {
-        cout<<"Display My data"<<endl;
+       fac.travers();
     }
 };
 void TempMain()

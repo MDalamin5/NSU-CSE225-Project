@@ -84,6 +84,7 @@ public:
         cout << "3. Update Faculty Information" << endl;
         cout << "4. Delete Faculty Information" << endl;
         cout << "5. Search Faculty" << endl;
+        cout << "6. Save To File" << endl;
         cout << "0. Back to Home" << endl;
         cout << "===============================" << endl;
     }
@@ -97,6 +98,7 @@ public:
         cout << "3. Update Course Information" << endl;
         cout << "4. Delete Course Information" << endl;
         cout << "5. Search Course" << endl;
+        cout << "6. Save To File" << endl;
         cout << "0. Back to Home" << endl;
         cout << "==============================" << endl;
     }
@@ -110,6 +112,7 @@ public:
         cout << "3. Update Course Assignment Information" << endl;
         cout << "4. Delete Course Assignment Information" << endl;
         cout << "5. Search Course Assignment" << endl;
+        cout << "6. Save To File" << endl;
         cout << "0. Back to Home" << endl;
         cout << "========================================" << endl;
     }
@@ -119,7 +122,7 @@ public:
     {
         cout << "===== Faculty Delte Information =====" << endl;
         cout << "1. Delete By searchin name" << endl;
-        cout << "2. Delete By searchin name" << endl;
+        cout << "2. Delete By searchin Phonenumber" << endl;
         cout << "0. Back Faculty Page" << endl;
         cout << "========================================" << endl;
     }
@@ -165,7 +168,8 @@ public:
     void facultyInfoPage()
     {
         int choice;
-
+        string filename = "faculty.txt";
+        loadFromFile(filename);
         do
         {
             facultyInfoMenu();
@@ -189,6 +193,10 @@ public:
             case 5:
                 searchFacultyInfo();
                 break;
+            case 6:
+               saveToFile(filename);
+               cout<< "Data Saved in File" << endl;
+               break;    
             case 0:
                 cout << "Returning to Home Page..." << endl;
                 break;
@@ -306,11 +314,48 @@ public:
     }
     void eraseSrcByName()
     {
+
+        string name;
+
+        cout << "Enter name to delete: ";
+        cin >> name;
+
+        FacultyInfo* current = facultyList;
+        FacultyInfo* previous = nullptr;
+
+        while (current != nullptr && current->name != name) {
+            previous = current;
+            current = current->next;
+        }
+
+        if (current == nullptr) {
+            cout << "Person not found." << endl;
+            return;
+        }
+
+        if (previous == nullptr) {
+            facultyList = current->next;
+        } else {
+            previous->next = current->next;
+        }
+
+        delete current;
+        cout<<"Data Delete Succfully"<<endl;
+
+
+
+
+
+
+
+
+
+        /*
         string src_name;
         cout << "Please Enter the name: ";
         fflush(stdin);
         getline(cin, src_name);
-
+   
         if (facultyList == NULL)
         {
             cout << "No data in your file" << endl;
@@ -366,6 +411,7 @@ public:
         prev->next = a->next;
         cout << "Delete " << a->name << "Faculty Info From Our List" << endl;
         delete a;
+        */
     }
 
     void eraseSrcByPhoneNumber()
@@ -602,7 +648,59 @@ public:
         }
     }
 
-    // Polash
+    //sss
+    void loadFromFile(const string& filename) {
+        ifstream file(filename);
+        if (!file) {
+            cout << "File not found." << endl;
+            return;
+        }
+
+        string name, designation, emailID, ext, room, mobileNumber;
+
+        while (getline(file, name)) {
+            file >> designation >> emailID >> ext >> room >> mobileNumber;
+            file.ignore();
+            addPersonFromFile(name, designation, emailID, ext, room, mobileNumber);
+        }
+
+        file.close();
+    }
+
+void saveToFile(const string& filename) {
+        ofstream file(filename);
+        if (!file) {
+            cout << "Error opening file for writing." << endl;
+            return;
+        }
+
+        FacultyInfo *current = facultyList;
+        while (current != nullptr) {
+            file << current->name <<endl;
+            file << current->designation << " " 
+            << current->emailID <<" "<< current->ext<<" "<<current->room<<" "<<current->mobileNumber<< endl;
+
+            current = current->next;
+        }
+
+        file.close();
+    }
+
+    //new add faculty form file
+    void addPersonFromFile(string name, string designation, string emailID, string ext, string room, string mobileNumber) {
+        FacultyInfo *newFaculty = new FacultyInfo(name, designation, emailID, ext, room, mobileNumber);
+
+        if (facultyList == nullptr) {
+            facultyList=newFaculty;
+        } else {
+            FacultyInfo *current = facultyList;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newFaculty;
+        }
+    }
+
 };
 int main()
 {

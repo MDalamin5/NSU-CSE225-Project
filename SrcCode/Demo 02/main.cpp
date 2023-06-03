@@ -5,6 +5,7 @@ class FacultyInfo
 {
 public:
     string name;
+    string fc_intital;
     string designation;
     string emailID;
     string ext;
@@ -12,9 +13,10 @@ public:
     string mobileNumber;
     FacultyInfo *next;
 
-    FacultyInfo(string name, string designation, string emailID, string ext, string room, string mobileNumber)
+    FacultyInfo(string name, string fc_intital, string designation, string emailID, string ext, string room, string mobileNumber)
     {
         this->name = name;
+        this->fc_intital=fc_intital;
         this->designation = designation;
         this->emailID = emailID;
         this->ext = ext;
@@ -207,11 +209,14 @@ public:
     }
     void addFacultyInfo()
     {
-        string name, designation, emailID, ext, room, mobileNumber;
+        string name,fc_initial, designation, emailID, ext, room, mobileNumber;
 
         fflush(stdin);
         cout << "Enter Faculty Full Name: ";
         getline(cin, name);
+        fflush(stdin);
+        cout << "Enter Faculty Initial: ";
+        getline(cin, fc_initial);
         fflush(stdin);
         cout << "Enter Faulty Designation: ";
         getline(cin, designation);
@@ -229,7 +234,7 @@ public:
         getline(cin, mobileNumber);
         fflush(stdin);
 
-        FacultyInfo *newFaculty = new FacultyInfo(name, designation, emailID, ext, room, mobileNumber);
+        FacultyInfo *newFaculty = new FacultyInfo(name,fc_initial, designation, emailID, ext, room, mobileNumber);
 
         // Add the new faculty info to the linked list
         if (facultyList == NULL)
@@ -656,12 +661,12 @@ public:
             return;
         }
 
-        string name, designation, emailID, ext, room, mobileNumber;
+        string name,fc_intital, designation, emailID, ext, room, mobileNumber;
 
         while (getline(file, name)) {
-            file >> designation >> emailID >> ext >> room >> mobileNumber;
+            file >>fc_intital >> designation >> emailID >> ext >> room >> mobileNumber;
             file.ignore();
-            addPersonFromFile(name, designation, emailID, ext, room, mobileNumber);
+            addPersonFromFile(name,fc_intital, designation, emailID, ext, room, mobileNumber);
         }
 
         file.close();
@@ -677,7 +682,7 @@ void saveToFile(const string& filename) {
         FacultyInfo *current = facultyList;
         while (current != nullptr) {
             file << current->name <<endl;
-            file << current->designation << " " 
+            file << current->designation << " " <<current->fc_intital<<" "
             << current->emailID <<" "<< current->ext<<" "<<current->room<<" "<<current->mobileNumber<< endl;
 
             current = current->next;
@@ -687,8 +692,8 @@ void saveToFile(const string& filename) {
     }
 
     //new add faculty form file
-    void addPersonFromFile(string name, string designation, string emailID, string ext, string room, string mobileNumber) {
-        FacultyInfo *newFaculty = new FacultyInfo(name, designation, emailID, ext, room, mobileNumber);
+    void addPersonFromFile(string name, string fc_intital, string designation, string emailID, string ext, string room, string mobileNumber) {
+        FacultyInfo *newFaculty = new FacultyInfo(name,fc_intital, designation, emailID, ext, room, mobileNumber);
 
         if (facultyList == nullptr) {
             facultyList=newFaculty;

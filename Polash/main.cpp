@@ -24,6 +24,7 @@ public:
     }
 };
 
+
 //Polash
 // CourseInfo class
 class CourseInfo
@@ -31,11 +32,11 @@ class CourseInfo
 public:
     string courseCode;
     string courseTitle;
-    string credits;
+    double credits;
     string courseType;
     CourseInfo *next;
 
-    CourseInfo(string courseCode, string courseTitle, string credits, string courseType)
+    CourseInfo(string courseCode, string courseTitle, double credits, string courseType)
     {
         this->courseCode = courseCode;
         this->courseTitle = courseTitle;
@@ -46,7 +47,6 @@ public:
     }
 };
 // Polash end
-
 
 // CourseAssignmentInfo class
 class CourseAssignmentInfo
@@ -97,6 +97,7 @@ public:
         cout << "3. Update Faculty Information" << endl;
         cout << "4. Delete Faculty Information" << endl;
         cout << "5. Search Faculty" << endl;
+        cout << "6. Save To File" << endl;
         cout << "0. Back to Home" << endl;
         cout << "===============================" << endl;
     }
@@ -110,6 +111,7 @@ public:
         cout << "3. Update Course Information" << endl;
         cout << "4. Delete Course Information" << endl;
         cout << "5. Search Course" << endl;
+        cout << "6. Save To File" << endl;
         cout << "0. Back to Home" << endl;
         cout << "==============================" << endl;
     }
@@ -123,6 +125,7 @@ public:
         cout << "3. Update Course Assignment Information" << endl;
         cout << "4. Delete Course Assignment Information" << endl;
         cout << "5. Search Course Assignment" << endl;
+        cout << "6. Save To File" << endl;
         cout << "0. Back to Home" << endl;
         cout << "========================================" << endl;
     }
@@ -132,7 +135,7 @@ public:
     {
         cout << "===== Faculty Delte Information =====" << endl;
         cout << "1. Delete By searchin name" << endl;
-        cout << "2. Delete By searchin name" << endl;
+        cout << "2. Delete By searchin Phonenumber" << endl;
         cout << "0. Back Faculty Page" << endl;
         cout << "========================================" << endl;
     }
@@ -178,7 +181,8 @@ public:
     void facultyInfoPage()
     {
         int choice;
-
+        string filename = "faculty.txt";
+        loadFromFile(filename);
         do
         {
             facultyInfoMenu();
@@ -202,6 +206,10 @@ public:
             case 5:
                 searchFacultyInfo();
                 break;
+            case 6:
+               saveToFile(filename);
+               cout<< "Data Saved in File" << endl;
+               break;    
             case 0:
                 cout << "Returning to Home Page..." << endl;
                 break;
@@ -253,7 +261,7 @@ public:
 
         cout << "Faculty information added successfully!" << endl;
     }
-// display faculty info
+
     void displayFacultyInfo()
     {
         if (facultyList == NULL)
@@ -319,11 +327,48 @@ public:
     }
     void eraseSrcByName()
     {
+
+        string name;
+
+        cout << "Enter name to delete: ";
+        cin >> name;
+
+        FacultyInfo* current = facultyList;
+        FacultyInfo* previous = nullptr;
+
+        while (current != nullptr && current->name != name) {
+            previous = current;
+            current = current->next;
+        }
+
+        if (current == nullptr) {
+            cout << "Person not found." << endl;
+            return;
+        }
+
+        if (previous == nullptr) {
+            facultyList = current->next;
+        } else {
+            previous->next = current->next;
+        }
+
+        delete current;
+        cout<<"Data Delete Succfully"<<endl;
+
+
+
+
+
+
+
+
+
+        /*
         string src_name;
         cout << "Please Enter the name: ";
         fflush(stdin);
         getline(cin, src_name);
-
+   
         if (facultyList == NULL)
         {
             cout << "No data in your file" << endl;
@@ -377,8 +422,9 @@ public:
         }
 
         prev->next = a->next;
-        cout << "Delete " << a->name << " Faculty Info From Our List" << endl;
+        cout << "Delete " << a->name << "Faculty Info From Our List" << endl;
         delete a;
+        */
     }
 
     void eraseSrcByPhoneNumber()
@@ -441,7 +487,7 @@ public:
 
         prev->next = a->next;
         // size--;
-        cout << "Delete " << a->name << " Faculty Info From Our List" << endl;
+        cout << "Delete " << a->name << "Faculty Info From Our List" << endl;
         delete a;
     }
     // delete method end
@@ -547,9 +593,7 @@ public:
         }
     }
 
-    // Faculty Search end
-
-    //update faculty info start
+    // Faculty Seacrch end
     void updateFacultyInfo()
     {
         string src_name;
@@ -617,31 +661,60 @@ public:
         }
     }
 
-    // Polash
+    //sss
+    void loadFromFile(const string& filename) {
+        ifstream file(filename);
+        if (!file) {
+            cout << "File not found." << endl;
+            return;
+        }
 
-/*
-// CourseInfo class also in top of the code
-class CourseInfo
-{
-public:
-    string courseCode;
-    string courseTitle;
-    string credits;
-    string courseType;
-    CourseInfo *next;
+        string name, designation, emailID, ext, room, mobileNumber;
 
-    CourseInfo(string courseCode, string courseTitle, string credits, string courseType)
-    {
-        this->courseCode = courseCode;
-        this->courseTitle = courseTitle;
-        this->credits = credits;
-        this-> courseType= courseType;
-        this->next = NULL;
+        while (getline(file, name)) {
+            file >> designation >> emailID >> ext >> room >> mobileNumber;
+            file.ignore();
+            addPersonFromFile(name, designation, emailID, ext, room, mobileNumber);
+        }
 
+        file.close();
     }
-};
-// CourseInfo class end
-*/
+
+void saveToFile(const string& filename) {
+        ofstream file(filename);
+        if (!file) {
+            cout << "Error opening file for writing." << endl;
+            return;
+        }
+
+        FacultyInfo *current = facultyList;
+        while (current != nullptr) {
+            file << current->name <<endl;
+            file << current->designation << " " 
+            << current->emailID <<" "<< current->ext<<" "<<current->room<<" "<<current->mobileNumber<< endl;
+
+            current = current->next;
+        }
+
+        file.close();
+    }
+
+    //new add faculty form file
+    void addPersonFromFile(string name, string designation, string emailID, string ext, string room, string mobileNumber) {
+        FacultyInfo *newFaculty = new FacultyInfo(name, designation, emailID, ext, room, mobileNumber);
+
+        if (facultyList == nullptr) {
+            facultyList=newFaculty;
+        } else {
+            FacultyInfo *current = facultyList;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newFaculty;
+        }
+    }
+
+    //Polash start
 
    // Delete course info menu
     void deleteCourseMenu()
@@ -661,11 +734,11 @@ public:
         cout << "0. Back to Course Page" << endl;
         cout << "========================================" << endl;
     }
-// course info page
 void courseInfoPage()
     {
         int choice;
-
+        string filename = "course.txt";
+        loadFromFile(filename);
         do
         {
             courseInfoMenu();
@@ -689,6 +762,10 @@ void courseInfoPage()
             case 5:
                 searchCourseInfo();
                 break;
+            case 6:
+               saveToCourseFile(filename);
+               cout<< "Data Saved in File" << endl;
+               break;    
             case 0:
                 cout << "Returning to Home Page..." << endl;
                 break;
@@ -698,10 +775,10 @@ void courseInfoPage()
         } while (choice != 0);
     }
 
-    //add course info
-void addCourseInfo()
+ void addCourseInfo()
     {
-        string courseCode,courseTitle,credits,courseType;
+         string courseCode,courseTitle,courseType;
+         double credits;
 
         fflush(stdin);
         cout << "Enter Course Code: ";
@@ -711,7 +788,7 @@ void addCourseInfo()
         getline(cin, courseTitle);
         fflush(stdin);
         cout << "Enter Course Credits: ";
-        getline(cin, credits);
+        cin>>credits;
         fflush(stdin);
         cout << "Enter Course Type: ";
         getline(cin, courseType);
@@ -736,7 +813,8 @@ void addCourseInfo()
 
         cout << "Course information added successfully!" << endl;
     }
-// display course information
+
+   // display course information
  void displayCourseInfo()
     {
         if (courseList == NULL)
@@ -760,8 +838,7 @@ void addCourseInfo()
             }
         }
     }
-
- // Delete course info
+// Delete course info
     void deleteCourseInfo()
     {
 
@@ -787,82 +864,48 @@ void addCourseInfo()
             }
         } while (choice != 0);
     }
-    void eraseCourseFromHead()
+ void eraseCourseFromHead()
     {
         CourseInfo *temp = courseList;
         courseList = temp->next;
         // size--;
-        cout << "Delete " << courseList->courseCode << " Course Info From Our List" << endl;
+        cout << "Delete " << courseList->courseCode << " Course Info From  List" << endl;
         delete temp;
 
         // return;
     }
 
- void eraseSrcByCourseCode()
+    void eraseSrcByCourseCode()
     {
-        string src_courseCode;
-        cout << "Please Enter the Course Code: ";
-        fflush(stdin);
-        getline(cin, src_courseCode);
 
-        if (courseList == NULL)
-        {
-            cout << "No data in your file" << endl;
+        string courseCode;
+
+        cout << "Enter the Course Code to delete: ";
+        cin >> courseCode;
+
+        CourseInfo* current = courseList;
+        CourseInfo* previous = nullptr;
+
+        while (current != nullptr && current->courseCode != courseCode) {
+            previous=current;
+            current = current->next;
+        }
+
+        if (current == nullptr) {
+            cout << "Course Code not found." << endl;
             return;
         }
 
-        int cur_indx = 0;
-        CourseInfo *a = courseList;
-        bool flag;
-        while (a != NULL)
-        {
-            flag = true;
-            for (int i = 0; i < src_courseCode.length(); i++)
-            {
-                if (src_courseCode[i] != a->courseCode[i])
-                {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag)
-            {
-                break;
-            }
-            a = a->next;
-            cur_indx++;
-        }
-        cout << cur_indx << endl;
-        if (flag)
-        {
-            cout << endl;
-            // cout << "Course Code Found " << endl;
-        }
-        else
-        {
-            cout << "Sorry! Course Code Not Found";
-            return;
+        if (previous == nullptr) {
+            courseList = current->next;
+        } else {
+            previous->next = current->next;
         }
 
-        if (cur_indx == 0)
-        {
-            eraseCourseFromHead();
-            return;
-        }
-        int count_index = 0;
-        CourseInfo *prev = courseList;
-        while (count_index != cur_indx - 1)
-        {
-            prev = prev->next;
-            count_index++;
-        }
-
-        prev->next = a->next;
-        cout << "Delete " << a->courseCode << " Course Info From Our List" << endl;
-        delete a;
+        delete current;
+        cout<<"Data Delete Succfully"<<endl;
     }
-
-    void eraseSrcByCourseTitle()
+ void eraseSrcByCourseTitle()
     {
         string src_courseTitle;
         cout << "Please Enter the Course Title: ";
@@ -927,8 +970,7 @@ void addCourseInfo()
     }
     // delete method end
 
- // Course  Search Start
-
+    // Faculty Search Start
     void searchCourseInfo()
     {
         int choice;
@@ -955,8 +997,9 @@ void addCourseInfo()
 
         } while (choice != 0);
     }
-// search by course code
-    void cou_searchByCourseCode()
+
+//search by course code
+void cou_searchByCourseCode()
     {
         string src_courseCode;
         cout << "Please Enter the Course Code: ";
@@ -984,16 +1027,15 @@ void addCourseInfo()
         }
         if (flag)
         {
-            cout << "Course Code Found " << endl;
+            cout << "Course Found " << endl;
         }
         else
         {
-            cout << "Sorry! Course Code Not Found" << endl;
+            cout << "Sorry! Course Not Found" << endl;
         }
     }
 
-
- // Search By course title
+    // Search By course Title
     void cou_searchByCourseTitle()
     {
         string src_courseTitle;
@@ -1022,21 +1064,21 @@ void addCourseInfo()
         }
         if (flag)
         {
-            cout << "Course Title Found " << endl;
+            cout << "Course  Found " << endl;
         }
         else
         {
-            cout << "Sorry! Course Title Not Found" << endl;
+            cout << "Sorry! Course  Not Found" << endl;
         }
     }
 
-    // Course Search end
+    // Course  Search end
 
-   //update course info start
+    //update course info
     void updateCourseInfo()
     {
         string src_courseCode;
-        cout << "Please Enter the course code which course info want to Update: ";
+        cout << "Please Enter the Course Code which Course info want to Update: ";
         fflush(stdin);
         getline(cin, src_courseCode);
 
@@ -1062,7 +1104,8 @@ void addCourseInfo()
         if (flag)
         {
             cout<<"Course Code is Found Please give Updated Information"<<endl<<endl;
-            string courseCode,courseTitle,credits,courseType;
+            string courseCode,courseTitle,courseType;
+            double credits;
 
             fflush(stdin);
             cout << "Enter Updatede Course Code: ";
@@ -1072,7 +1115,7 @@ void addCourseInfo()
             getline(cin, courseTitle);
             fflush(stdin);
             cout << "Enter Updatede Course Credits: ";
-            getline(cin, credits);
+            cin>>credits;
             fflush(stdin);
             cout << "Enter Updatede Course Type: ";
             getline(cin, courseType);
@@ -1092,8 +1135,62 @@ void addCourseInfo()
         }
     }
 
-    //
-    //Polash end
+//course file
+    void loadFromCourseFile(const string& filename) {
+        ifstream file(filename);
+        if (!file) {
+            cout << "File not found." << endl;
+            return;
+        }
+
+        string courseCode,courseTitle,courseType;
+        double credits;
+
+        while (getline(file, courseCode)) {
+            file >> courseTitle >> credits >> courseType ;
+            file.ignore();
+            addCourseFromFile(courseCode,courseTitle,credits,courseType);
+        }
+
+        file.close();
+    }
+
+void saveToCourseFile(const string& filename) {
+        ofstream file(filename);
+        if (!file) {
+            cout << "Error opening file for writing." << endl;
+            return;
+        }
+
+        CourseInfo *current = courseList;
+        while (current != nullptr) {
+            file << current->courseCode <<endl;
+            file << current->courseTitle << " " 
+            << current->credits <<" "<< current->courseType<< endl;
+
+            current = current->next;
+        }
+
+        file.close();
+    }
+
+    //new add Course form file
+
+    void addCourseFromFile(string courseCode,string courseTitle,double credits,string courseType) {
+        CourseInfo *newCourse = new CourseInfo(courseCode,courseTitle,credits,courseType);
+
+        if (courseList == nullptr) {
+            courseList=newCourse;
+        } else {
+            CourseInfo *current = courseList;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newCourse;
+        }
+    }
+//Polash end
+
 };
 int main()
 {

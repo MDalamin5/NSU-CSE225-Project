@@ -83,14 +83,14 @@ class CourseManagementSystem
 private:
     FacultyInfo *facultyList;
     CourseInfo *courseList;
-    CourseAssignmentInfo *assignmentList;
+    CourseAssignmentInfo *courseAssignmentList;
 
 public:
     CourseManagementSystem()
     {
         facultyList = NULL;
         courseList = NULL;
-        assignmentList = NULL;
+        courseAssignmentList = NULL;
     }
 
     void homePage()
@@ -184,7 +184,7 @@ public:
                  courseInfoPage();
                 break;
             case 3:
-                // courseAssignmentInfoPage();
+                 courseAssignmentInfoPage();
                 break;
             case 0:
                 cout << "Exiting the Course Management System..." << endl;
@@ -756,7 +756,7 @@ void courseInfoPage()
     {
         int choice;
         string filename = "course.txt";
-        loadFromFile(filename);
+        loadFromCourseFile(filename);
         do
         {
             courseInfoMenu();
@@ -1210,35 +1210,39 @@ void saveToCourseFile(const string& filename) {
 //Polash end
 
 
-//Shamim start
-//Delete Course Assignment Info Menu
+//Shamim Start
+
+// Delete Faculty info menu
     void deleteCourseAssignmentMenu()
     {
-        cout<<"===== Course Assignment Delete Information ====="<<endl;
-        cout<<"1. Delete By Searching Course Name"<<endl;
-        cout<<"2. Delete By Searching Instructor Initial"<<endl;
-        cout<<"3. Back to Course Assignment Page"<<endl;
-        cout<<" ================================================="<<endl;
+        cout << "===== Delete course Assignment Information =====" << endl;
+        cout << "1. Delete By searching Course Name" << endl;
+        cout << "2. Delete By searching Course Instructor " << endl;
+        cout << "0. Back Course Assignment Page" << endl;
+        cout << "========================================" << endl;
     }
-    //Search Course Assignment Menu
-    void searchCourseAsignmentMenu()
+    // Course Assignment Search Menu
+    void searchCourseAssignmentMenu()
     {
-        cout<<" ===== Course Assignment Search Information ====="<<endl;
-        cout<<"1. Search By Course Name"<<endl;
-        cout<<"2. Search By Instructor Initial"<<endl;
-        cout<<"0. Back to Course Assignment Page"<<endl;
-        cout<<"==================================================="<<endl;
+        cout << "===== Delete Course Assignment Information =====" << endl;
+        cout << "1. Search By Course Name" << endl;
+        cout << "2. Search By Course Instructor " << endl;
+        cout << "0. Back Course Assignment Page" << endl;
+        cout << "========================================" << endl;
     }
+
  void courseAssignmentInfoPage()
     {
         int choice;
+        string filename = "CourseAssignment.txt";
+        loadFromCourseAssignmentFile(filename);
         do
         {
             courseAssignmentInfoMenu();
-            cout<<"Enter Your Choice: ";
-            cin>>choice;
+            cout << "Enter your choice: ";
+            cin >> choice;
 
-            switch(choice)
+            switch (choice)
             {
             case 1:
                 addCourseAssignmentInfo();
@@ -1247,30 +1251,29 @@ void saveToCourseFile(const string& filename) {
                 displayCourseAssignmentInfo();
                 break;
             case 3:
-                updateCourseAssignmentInfo();
+                 updateCourseAssignmentInfo();
                 break;
             case 4:
                 deleteCourseAssignmentInfo();
                 break;
             case 5:
-                searchCourseAsignmentInfo();
+                searchCourseAssignmentInfo();
                 break;
             case 6:
-                saveToFile("CourseAssignment.txt");
-                cout<<"Data Save in File"<<endl;
+               saveToCourseAssignmentFile(filename);
+               cout<< "Data Saved in File" << endl;
+               break;    
             case 0:
-                cout<<"Returning to Home Page..."<<endl;
+                cout << "Returning to Home Page..." << endl;
                 break;
             default:
-                cout<<"Invalid Choice! Please try again. "<<endl;
+                cout << "Invalid choice! Please try again." << endl;
             }
-        }while(choice != 0);
+        } while (choice != 0);
     }
-
-    //Add Course Assignment Information
     void addCourseAssignmentInfo()
     {
-        string course, section, instructor, start_time, end_time, day, room;
+         string course, section, instructor, start_time, end_time, day, room;
 
         fflush(stdin);
         cout<<"Enter Course Name: ";
@@ -1301,36 +1304,37 @@ void saveToCourseFile(const string& filename) {
         getline(cin, room);
         fflush(stdin);
 
-        CourseAssignmentInfo * newCourseAssignment = new CourseAssignmentInfo(course, section, instructor, start_time, end_time, day, room);
+        CourseAssignmentInfo *newCourseAssignment = new CourseAssignmentInfo(course, section, instructor, start_time, end_time, day, room);
 
-        //Add the new Course Assignment info to the linked list
-        if(assignmentList == NULL)
+        // Add the new Course assignment info to the linked list
+        if (courseAssignmentList == NULL)
         {
-            assignmentList = newCourseAssignment;
+            courseAssignmentList = newCourseAssignment;
         }
         else
         {
-            CourseAssignmentInfo *temp = assignmentList;
-            while(temp->next != NULL)
+            CourseAssignmentInfo *temp = courseAssignmentList;
+            while (temp->next != NULL)
             {
                 temp = temp->next;
             }
             temp->next = newCourseAssignment;
         }
-        cout<<" Course Information Added Successfully! "<<endl;
+
+        cout << "Course Assignment information added successfully!" << endl;
     }
 
-    //Display Course Assignment
     void displayCourseAssignmentInfo()
     {
-        if(assignmentList == NULL)
+        if (courseAssignmentList == NULL)
         {
-            cout<<"No Course Assignment Information Found!"<<endl;
+            cout << "No Course Assignment information found!" << endl;
         }
-        else{
-            CourseAssignmentInfo *temp = assignmentList;
-            cout<<"====== Course Assignment Information ======"<<endl;
-            while(temp != NULL)
+        else
+        {
+            CourseAssignmentInfo *temp = courseAssignmentList;
+            cout << "===== Course Assignment Information =====" << endl;
+            while (temp != NULL)
             {
                 cout<<"Course Name: "<<temp->course<<" "
                     <<"Section: "<<temp->section<<" "
@@ -1340,179 +1344,188 @@ void saveToCourseFile(const string& filename) {
                     <<"Day: "<<temp->day<<" "
                     <<"Room: "<<temp->room<<endl;
                 cout<<endl;
-                cout<<"--------------------------------------"<<endl;
+                cout << "------------------------------" << endl;
                 temp = temp->next;
             }
         }
     }
 
-    //Delete Course Assignment Information
+    // Delete Course Assignment info
     void deleteCourseAssignmentInfo()
     {
+
         int choice;
         do
         {
             deleteCourseAssignmentMenu();
-            cout<<"Enter Your Choice: ";
-            cin>>choice;
-            switch(choice)
+            cout << "Enter Your Choice: ";
+            cin >> choice;
+            switch (choice)
             {
             case 1:
                 eraseSrcByCourseName();
                 break;
             case 2:
-                eraseSrcByIntructor();
+                eraseSrcByCourseInstructor();
                 break;
             case 0:
-                cout<<"Returning to Home Page..."<<endl;
+                cout << "Returning to Home Page..." << endl;
                 break;
             default:
-                cout<<"Invalid Choice! Please try again."<<endl;
+                cout << "Invalid choice! Please try again." << endl;
             }
-        }
-        while(choice != 0);
+        } while (choice != 0);
     }
-    void eraseFromHeadCourseAssignment()
+    void eraseFromCourseAssignmentHead()
     {
-        CourseAssignmentInfo *temp = assignmentList;
-        assignmentList = temp->next;
-        //size--;
-        cout<<"Delete "<<assignmentList->course<<"Course Assignment Info From Out List"<<endl;
+        CourseAssignmentInfo *temp = courseAssignmentList;
+        courseAssignmentList = temp->next;
+        // size--;
+        cout << "Delete " << courseAssignmentList->course << " CourseAssignment Info From Our List" << endl;
         delete temp;
-        //return;
-    }
 
+        // return;
+    }
     void eraseSrcByCourseName()
     {
+
         string course;
-        cout<<"Please Enter the Course Name to Delete: ";
-        cin>>course;
 
-       CourseAssignmentInfo* current = assignmentList;
-       CourseAssignmentInfo* previous = nullptr;
+        cout << "Enter course name to delete: ";
+        cin >> course;
 
-       while(current != nullptr && current->course != course)
-       {
-           previous = current;
-           current = current->next;
-       }
+        CourseAssignmentInfo* current = courseAssignmentList;
+        CourseAssignmentInfo* previous = nullptr;
 
-       if(current == nullptr)
-       {
-           cout<<"Course name not found! "<<endl;
-           return;
-       }
-       if(previous == nullptr)
-       {
-           assignmentList = current->next;
-       }
-       else
-       {
-           previous->next = current->next;
-       }
-       delete current;
-       cout<<"Data Delete Successfully"<<endl;
-    }
+        while (current != nullptr && current->course != course) {
+            previous = current;
+            current = current->next;
+        }
 
-    void  eraseSrcByIntructor()
-    {
-        string instructorInitial;
-        cout<<"Please Enter the Instructor Initial: ";
-        fflush(stdin);
-        getline(cin, instructorInitial);
-
-        if(assignmentList == NULL)
-        {
-            cout<<"No Data in Your File"<<endl;
+        if (current == nullptr) {
+            cout << "Course not found." << endl;
             return;
         }
 
-        int cur_index = 0;
-        CourseAssignmentInfo *ca = assignmentList;
+        if (previous == nullptr) {
+            courseAssignmentList = current->next;
+        } else {
+            previous->next = current->next;
+        }
+
+        delete current;
+        cout<<"Data Delete Succfully"<<endl;
+
+    }
+
+    void eraseSrcByCourseInstructor()
+    {
+        string src_courseInstructor;
+        cout << "Please Enter the course Instructor: ";
+        fflush(stdin);
+        getline(cin, src_courseInstructor);
+
+        if (courseAssignmentList == NULL)
+        {
+            cout << "No data in your file" << endl;
+            return;
+        }
+
+        int cur_indx = 0;
+        CourseAssignmentInfo *a = courseAssignmentList;
         bool flag;
-        while(ca != NULL)
+        while (a != NULL)
         {
             flag = true;
-            for(int i =0; i<instructorInitial.length(); i++)
+            for (int i = 0; i < src_courseInstructor.length(); i++)
             {
-                if(instructorInitial[i] != ca->instructor[i])
+                if (src_courseInstructor[i] != a->instructor[i])
                 {
                     flag = false;
                     break;
                 }
             }
-            if(flag)
+            if (flag)
             {
                 break;
             }
-            ca = ca->next;
-            cur_index++;
+            a = a->next;
+            cur_indx++;
         }
-        cout<<cur_index<<endl;
-        if(flag)
+        cout << cur_indx << endl;
+        if (flag)
         {
-            cout<<endl;
-            //cout<<"Name Found"<<endl;
+            cout << endl;
+            // cout << "Name of Instructor Found " << endl;
         }
         else
         {
-            cout<<"Sorry! Name Not found";
+            cout << "Sorry! Name of Instructor Not Found";
+            return;
+        }
+
+        if (cur_indx == 0)
+        {
+            eraseFromCourseAssignmentHead();
             return;
         }
         int count_index = 0;
-        CourseAssignmentInfo *prev = assignmentList;
-        while(count_index != cur_index-1)
+        CourseAssignmentInfo *prev = courseAssignmentList;
+        while (count_index != cur_indx - 1)
         {
             prev = prev->next;
         }
-        prev->next = ca->next;
-        //size--;
-        cout<<"Delete "<<ca->course<<"Course Assignment Info From Our List"<<endl;
-        delete ca;
-    }
 
-    //Search Course Assignment
-    void searchCourseAsignmentInfo()
+        prev->next = a->next;
+        // size--;
+        cout << "Delete " << a->instructor  << " Course Assignment Info From Our List" << endl;
+        delete a;
+    }
+    // delete method end
+
+    // Course Assignment Search Start
+    void searchCourseAssignmentInfo()
     {
         int choice;
         do
         {
-            searchCourseAsignmentMenu();
-            cout<<"Enter Your Choice: ";
-            cin>>choice;
-            switch(choice)
+            searchCourseAssignmentMenu();
+            cout << "Enter your choice: ";
+            cin >> choice;
+            switch (choice)
             {
             case 1:
-                CourseAssignmentSrcByCourseName();
+                ass_searchByCourseName();
                 break;
             case 2:
-                CourseAssignmentSrcByInstructorInitail();
+                ass_searchByCourseInstructor();
                 break;
+
             case 0:
-                cout<<"Returning to Home Page..."<<endl;
+                cout << "Returning to Home Page..." << endl;
                 break;
             default:
-                cout<<"Invalid Choice! Please try again. "<<endl;
+                cout << "Invalid choice! Please try again." << endl;
             }
-        }
-        while(choice != 0);
+
+        } while (choice != 0);
     }
 
-    void CourseAssignmentSrcByCourseName()
+    void ass_searchByCourseName()
     {
-        string courseName;
+        string src_courseName;
         cout << "Please Enter the Course name: ";
         fflush(stdin);
-        getline(cin, courseName);
+        getline(cin, src_courseName);
 
-        CourseAssignmentInfo *ca = assignmentList;
+        CourseAssignmentInfo *a = courseAssignmentList;
         bool flag;
-        while (ca != NULL)
+        while (a != NULL)
         {
             flag = true;
-            for (int i = 0; i < courseName.length(); i++)
+            for (int i = 0; i < src_courseName.length(); i++)
             {
-                if (courseName[i] != ca->course[i])
+                if (src_courseName[i] != a->course[i])
                 {
                     flag = false;
                     break;
@@ -1522,33 +1535,34 @@ void saveToCourseFile(const string& filename) {
             {
                 break;
             }
-            ca = ca->next;
+            a = a->next;
         }
         if (flag)
         {
-            cout << "Name Found " << endl;
+            cout << "Course name Found " << endl;
         }
         else
         {
-            cout << "Sorry! Name Not Found" << endl;
+            cout << "Sorry! course Name Not Found" << endl;
         }
     }
 
-    void CourseAssignmentSrcByInstructorInitail()
+    // Search By instructor name
+    void ass_searchByCourseInstructor()
     {
-        string instructorInitial;
-        cout << "Please Enter the Instructor initial: ";
+        string src_courseInstructor;
+        cout << "Please Enter the course Instructor: ";
         fflush(stdin);
-        getline(cin, instructorInitial);
+        getline(cin, src_courseInstructor);
 
-        CourseAssignmentInfo *ca = assignmentList;
+        CourseAssignmentInfo *a = courseAssignmentList;
         bool flag;
-        while (ca != NULL)
+        while (a != NULL)
         {
             flag = true;
-            for (int i = 0; i < instructorInitial.length(); i++)
+            for (int i = 0; i < src_courseInstructor.length(); i++)
             {
-                if (instructorInitial[i] != ca->instructor[i])
+                if (src_courseInstructor[i] != a->instructor[i])
                 {
                     flag = false;
                     break;
@@ -1558,47 +1572,47 @@ void saveToCourseFile(const string& filename) {
             {
                 break;
             }
-            ca = ca->next;
+            a = a->next;
         }
         if (flag)
         {
-            cout << "Name Found " << endl;
+            cout << "Instructor Name Found ok" << endl;
         }
         else
         {
-            cout << "Sorry! Name Not Found" << endl;
+            cout << "Sorry! Instructor Name Not Found" << endl;
         }
     }
 
+    // Course Assignment Search end
 
-    //Update Course Assignment
     void updateCourseAssignmentInfo()
     {
-        string courseName;
-        cout<<"Please Enter the course name which do you want to Update: ";
+        string src_courseName;
+        cout << "Please Enter the course which  info want to Update: ";
         fflush(stdin);
-        getline(cin, courseName);
+        getline(cin, src_courseName);
 
-        CourseAssignmentInfo *ca = assignmentList;
+        CourseAssignmentInfo *a = courseAssignmentList;
         bool flag;
-        while(ca != NULL)
+        while (a != NULL)
         {
             flag = true;
-            for (int i = 0; i<courseName.length(); i++)
+            for (int i = 0; i < src_courseName.length(); i++)
             {
-                if(courseName[i] != ca->course[i])
+                if (src_courseName[i] != a->course[i])
                 {
                     flag = false;
                     break;
                 }
             }
-            if(flag)
+            if (flag)
             {
                 break;
             }
-            ca = ca->next;
+            a = a->next;
         }
-        if(flag)
+        if (flag)
         {
             cout<<"Course Name is Found. Please give Update information"<<endl<<endl;
             string course, section, instructor, start_time, end_time, day, room;
@@ -1632,13 +1646,13 @@ void saveToCourseFile(const string& filename) {
             getline(cin, room);
             fflush(stdin);
 
-            ca->course = course;
-            ca->section = section;
-            ca->instructor = instructor;
-            ca->start_time = start_time;
-            ca->end_time = end_time;
-            ca->day = day;
-            ca->room = room;
+            a->course = course;
+            a->section = section;
+            a->instructor = instructor;
+            a->start_time = start_time;
+            a->end_time = end_time;
+            a->day = day;
+            a->room = room;
 
             cout<<endl<<" Course Assignment Information updated successfully!"<<endl;
             return;
@@ -1648,38 +1662,35 @@ void saveToCourseFile(const string& filename) {
         }
     }
 
-
-    //File add
-    void CourseAssignmentLoadFromFile(const string& filename)
-    {
+    //sss
+    void loadFromCourseAssignmentFile(const string& filename) {
         ifstream file(filename);
-        if(!file)
-        {
-            cout<<"File not Found! "<<endl;
+        if (!file) {
+            cout << "File not found." << endl;
             return;
         }
+
         string course, section, instructor, start_time, end_time, day, room;
 
         while (getline(file, course)) {
             file >>course>>section>>instructor>>start_time>>end_time>>day>>room;
             file.ignore();
-            addCourseAssignmentFromFile(course, section, instructor, start_time, end_time, day, room);
+            addFromCourseAssignmentFile(course, section, instructor, start_time, end_time, day, room);
         }
 
         file.close();
     }
 
-    void saveToCourseAssignmentFile(const string& filename) {
-        string filname = "CourseAssignment.txt";
+void saveToCourseAssignmentFile(const string& filename) {
         ofstream file(filename);
         if (!file) {
             cout << "Error opening file for writing." << endl;
             return;
         }
 
-        CourseAssignmentInfo *current = assignmentList;
+        CourseAssignmentInfo *current = courseAssignmentList;
         while (current != nullptr) {
-            file << current->course <<endl;
+             file << current->course <<endl;
             file << current->section << " "
             << current->instructor <<" "<< current->start_time<<" "<<current->end_time<<" "<<current->day<<" "<<current->room<< endl;
 
@@ -1690,13 +1701,13 @@ void saveToCourseFile(const string& filename) {
     }
 
     //new add faculty form file
-    void addCourseAssignmentFromFile(string course, string section, string instructor, string start_time, string end_time, string day, string room) {
+    void addFromCourseAssignmentFile(string course, string section, string instructor, string start_time, string end_time, string day, string room) {
         CourseAssignmentInfo *newCourseAssignment = new CourseAssignmentInfo(course, section, instructor, start_time, end_time, day, room);
 
-        if (assignmentList == nullptr) {
-            assignmentList = newCourseAssignment;
+        if (courseAssignmentList == nullptr) {
+            courseAssignmentList=newCourseAssignment;
         } else {
-            CourseAssignmentInfo *current = assignmentList;
+            CourseAssignmentInfo *current = courseAssignmentList;
             while (current->next != nullptr) {
                 current = current->next;
             }
@@ -1706,7 +1717,7 @@ void saveToCourseFile(const string& filename) {
 
 };
 
-//Shamim end
+
 
 
 int main()

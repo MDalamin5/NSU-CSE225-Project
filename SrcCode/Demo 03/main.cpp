@@ -84,6 +84,7 @@ private:
     FacultyInfo *facultyList;
     CourseInfo *courseList;
     CourseAssignmentInfo *courseAssignmentList;
+    CourseAssignmentInfo *stuCourseSelection;
 
 public:
     CourseManagementSystem()
@@ -91,6 +92,7 @@ public:
         facultyList = NULL;
         courseList = NULL;
         courseAssignmentList = NULL;
+        stuCourseSelection=NULL;
     }
 
     void homePage()
@@ -100,8 +102,7 @@ public:
         cout << "2. Course Information" << endl;
         cout << "3. Course Assignment Information" << endl;
         cout << "4. Generating Report" << endl;
-        cout << "5. Advising Now" << endl;
-        cout << "6. Display My Course" << endl;
+        cout << "5. Advising Window" << endl;
         cout << "0. Exit" << endl;
         cout << "====================================" << endl;
     }
@@ -175,6 +176,16 @@ public:
         cout << "0. Back To Home Page" << endl;
         cout << "========================================" << endl;
     }
+    //Advising Menu
+    void advisingMenu()
+    {
+        cout << "=====  Welcome to Advising Page =====" << endl;
+        cout << "1. Take Course" << endl;
+        cout << "2. Show My List of the Course" << endl;
+        cout << "3. Reset My Course List" << endl;
+        cout << "0. Back To Home Page" << endl;
+        cout << "========================================" << endl;
+    }
     void run()
     {
         int choice;
@@ -198,7 +209,7 @@ public:
                 reportGeneratingPage();
                 break;
             case 5:
-                // advisingPage();
+                 advisingPage();
                 break;
             case 0:
                 cout << "Exiting the Course Management System..." << endl;
@@ -1925,6 +1936,50 @@ public:
             cout << "Room Number"<< room_Number << ": "  <<"Total Number of Class held: " << courseCount << endl<<endl;
     }
   //Report Generate end
+  //advising page
+    void advisingPage()
+    {
+        int choice;
+
+        do
+        {
+            advisingMenu();
+            cout << "Enter your choice: ";
+            cin >> choice;
+
+            switch (choice)
+            {
+            case 1:
+               takeCourse();
+                break;
+            case 2:
+                showMyCourseList();
+                break;
+            case 3:
+                 resetMyCourseList();
+                break;   
+            case 0:
+                cout << "Returning to Home Page..." << endl;
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+            }
+        } while (choice != 0);
+    }
+void takeCourse()
+{
+
+
+}
+void showMyCourseList()
+{
+
+}
+void resetMyCourseList()
+{
+
+}
+
 };
 
 int main()

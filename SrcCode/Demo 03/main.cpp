@@ -506,7 +506,7 @@ public:
             a = a->next;
             cur_indx++;
         }
-        cout << cur_indx << endl;
+        //cout << cur_indx << endl;
         if (flag)
         {
             cout << endl;
@@ -1968,16 +1968,153 @@ public:
     }
 void takeCourse()
 {
+string courseCode;
+        cout << "Enter Course Code Only: ";
+        cin >> courseCode;
+        bool courseAdd = false;
+        CourseAssignmentInfo *current = courseAssignmentList;
+        while (current != nullptr)
+        {
+            if (current->course == courseCode)
+            {
+                if(stuCourseSelection==NULL)
+               {
+                 addStudentCourse(current->course,current->section,current->instructor,current->start_time,current->end_time,current->day,current->room);
+                courseAdd=true;
+                break;
+               }
+               else if(checkCourseConflict(current))
+               {
+                    cout<<"You can not add this course"<<endl;
+                    cout<<"Try to add anothr section"<<endl;
+                    return;
+               }
+               else if(!checkCreditLimit(current))
+               {
+                  cout << "Credit limit is exceeded." << endl;
+                  return;
+               }
+               else
+               {
+                  addStudentCourse(current->course,current->section,current->instructor,current->start_time,current->end_time,current->day,current->room);
+                  courseAdd=true;
+                   break;
+               }
+            }
+            current = current->next;
+        }
+        if (courseAdd)
+        {
+             cout << "Course added Successfully!" << endl;
+        }
+        else
+            cout <<"This course: "<<courseCode<<" IS not offer this semister" << endl<<endl;
+}
 
+//CONFLIC CHECK
+bool checkCourseConflict(CourseAssignmentInfo* newCourse) {
+        CourseAssignmentInfo* current = stuCourseSelection;
+        while (current != nullptr) {
+            if (current->day == newCourse->day)
+             {
+                if (current->start_time == newCourse->start_time) {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            current = current->next;
+        }
+        return false;
+    }
 
+    bool checkCreditLimit(CourseAssignmentInfo* newCourse) {
+        double totalCredits = 0;
+        CourseAssignmentInfo* current = stuCourseSelection;
+       // CourseInfo *curseData=courseList;
+        while (current != nullptr) {
+            if (current->instructor == newCourse->instructor) {
+                totalCredits += giveCourseCradit(newCourse->course);
+            }
+            current = current->next;
+        }
+        totalCredits += giveCourseCradit(newCourse->course);
+        return totalCredits <= 11;
+    }
+
+double giveCourseCradit(string courseName)
+{
+    CourseInfo *cur = courseList;
+    while(cur!=NULL)
+    {
+        if(cur->courseCode==courseName)
+        {
+            return cur->credits;
+        }
+        cur=cur->next;
+    }
+    return 0;
+}
+
+void addStudentCourse(string course, string section, string instructor, string start_time, string end_time, string day, string room)
+{
+    CourseAssignmentInfo *newCourseAssignment = new CourseAssignmentInfo(course, section, instructor, start_time, end_time, day, room);
+    
+    if (stuCourseSelection == NULL)
+        {
+            stuCourseSelection = newCourseAssignment;
+        }
+        else
+        {
+            CourseAssignmentInfo *temp = stuCourseSelection;
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+            temp->next = newCourseAssignment;
+        }
+
+       
 }
 void showMyCourseList()
 {
-
+    
+    if (stuCourseSelection == NULL)
+        {
+            cout << "No Course found! Please add course First" << endl;
+        }
+        else
+        {
+            CourseAssignmentInfo *temp = stuCourseSelection;
+            cout << "===== Advising Course Information =====" << endl;
+            while (temp != NULL)
+            {
+                cout << "Course Name: " << temp->course << " | "
+                     << "Section: " << temp->section << " "
+                     << "Instructor: " << temp->instructor << " | "
+                     << "Start time: " << temp->start_time << " | "
+                     << "End time: " << temp->end_time << " | "
+                     << "Day: " << temp->day << " | "
+                     << "Room: " << temp->room << " | " << endl;
+                cout << endl;
+                cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+                temp = temp->next;
+            }
+        }
 }
 void resetMyCourseList()
 {
-
+    CourseAssignmentInfo *current = stuCourseSelection;
+    CourseAssignmentInfo *temp;
+    while(current!=NULL)
+    {
+        temp=current;
+        current=current->next;
+        delete temp;
+    }
+    cout<<"All Course Delete Sussfully"<<endl;
 }
 
 };

@@ -165,16 +165,16 @@ public:
         cout << "0. Back Faculty Page" << endl;
         cout << "========================================" << endl;
     }
-     // Report generate Menu
-     void reportGeneratingMenu()
-     {
+    // Report generate Menu
+    void reportGeneratingMenu()
+    {
         cout << "=====  Generating Report Information =====" << endl;
         cout << "1. Faculty-wise Routien" << endl;
         cout << "2. Course-wise Routine" << endl;
-        cout << "2. Room-wise Routine" << endl;
+        cout << "3. Room-wise Routine" << endl;
         cout << "0. Back To Home Page" << endl;
         cout << "========================================" << endl;
-     }
+    }
     void run()
     {
         int choice;
@@ -198,7 +198,7 @@ public:
                 reportGeneratingPage();
                 break;
             case 5:
-                //advisingPage();
+                // advisingPage();
                 break;
             case 0:
                 cout << "Exiting the Course Management System..." << endl;
@@ -1784,7 +1784,7 @@ public:
     }
 
     // report part
-    
+
     void reportGeneratingPage()
     {
         int choice;
@@ -1797,14 +1797,15 @@ public:
             switch (choice)
             {
             case 1:
-               generateInstructorReport();
+                generateInstructorReport();
                 break;
             case 2:
-                //displayCourseInfo();
+               
+                generateCourseWiseReport();
                 break;
             case 3:
-                 //updateCourseInfo();
-                break;  
+                 generateRoomWiseReport();
+                break;
             case 0:
                 cout << "Returning to Home Page..." << endl;
                 break;
@@ -1813,35 +1814,117 @@ public:
             }
         } while (choice != 0);
     }
-    
 
-
-    //Faculty wise Routine
-    void generateInstructorReport() {
+    // Faculty wise Routine
+    void generateInstructorReport()
+    {
         string instructorInitials;
-        cout<<"Enter Faculty Initial: ";
-        cin>>instructorInitials;
+        cout << "Enter Faculty Initial: ";
+        cin >> instructorInitials;
         int courseCount = 0;
-        CourseAssignmentInfo* current = courseAssignmentList;
-        while (current != nullptr) {
-            if (current->instructor==instructorInitials) {
-                cout << "Course Code: " << current->course<<"." <<current->section<< endl;
-                cout << "Day: " << current->day << endl;
-                cout << "Start Time: " << current->start_time << endl;
-                cout << "End Time: " << current->end_time << endl;
-                cout<<"Class Room: "<<current->room<<endl;
-                cout << "------------------------" << endl;
+        CourseAssignmentInfo *current = courseAssignmentList;
+        while (current != nullptr)
+        {
+            if (current->instructor == instructorInitials)
+            {
+                if(courseCount==0)
+                {
+                    cout << "------------------------------------------------------------------------------------------------" << endl;
+                    cout << "------------------------------------------------------------------------------------------------" << endl;
+                }
+                cout << "Course Code: " << current->course << "." << current->section << " "
+                     << "Day: " << current->day << " "
+                     << "Start Time: " << current->start_time << " "
+                     << "End Time: " << current->end_time << " "
+                     << "Class Room: " << current->room << endl;
+                cout << "------------------------------------------------------------------------------------------------" << endl;
+                cout << "------------------------------------------------------------------------------------------------" << endl;
                 courseCount++;
             }
             current = current->next;
         }
-        if(courseCount==0)
+        if (courseCount == 0)
         {
-            cout<< "This Semister "<<instructorInitials<<" "<<"is not taking any Course "<<endl;
+            cout << "This Semister " << instructorInitials << " "
+                 << "is not taking any Course " << endl<<endl;
         }
         else
-        cout << "Total courses taken by instructor " << instructorInitials << ": " << courseCount << endl;
+            cout << "Total courses taken by instructor " << instructorInitials << ": " << courseCount << endl<<endl;
     }
+
+    void generateCourseWiseReport()
+    {
+        string courseCode;
+        cout << "Enter Course Code Only: ";
+        cin >> courseCode;
+        int courseCount = 0;
+        CourseAssignmentInfo *current = courseAssignmentList;
+        while (current != nullptr)
+        {
+            if (current->course == courseCode)
+            {
+                if(courseCount==0)
+                {
+                    cout << "------------------------------------------------------------------------------------------------------" << endl;
+                    cout << "------------------------------------------------------------------------------------------------------" << endl;
+                }
+                cout << "Course Section: " << current->section << " "
+                    << "Faculty Initial: "<<current->instructor<<" "
+                     << "Day: " << current->day << " "
+                     << "Start Time: " << current->start_time << " "
+                     << "End Time: " << current->end_time << " "
+                     << "Class Room: " << current->room << endl;
+                    cout << "-----------------------------------------------------------------------------------------------------" << endl;
+                    cout << "-----------------------------------------------------------------------------------------------------" << endl;
+                courseCount++;
+            }
+            current = current->next;
+        }
+        if (courseCount == 0)
+        {
+            cout << "This Semister " << courseCode << " "
+                 << "is not Offer " << endl<<endl;
+        }
+        else
+            cout << "Total Number of Section for This Semister Course: " << courseCode << ": " << courseCount << endl<<endl;
+    }
+
+    void generateRoomWiseReport()
+    {
+        string room_Number;
+        cout << "Enter Room Number: ";
+        cin >> room_Number;
+        int courseCount = 0;
+        CourseAssignmentInfo *current = courseAssignmentList;
+        while (current != nullptr)
+        {
+            if (current->room == room_Number)
+            {
+                if(courseCount==0)
+                {
+                    cout << "------------------------------------------------------------------------------------------------------" << endl;
+                    cout << "------------------------------------------------------------------------------------------------------" << endl;
+                }
+                cout << "Course Code: " << current->course << "." << current->section << " "
+                    << "Faculty Initial: "<<current->instructor<<" "
+                     << "Day: " << current->day << " "
+                     << "Start Time: " << current->start_time << " "
+                     << "End Time: " << current->end_time << " "<< endl;
+                    cout << "-----------------------------------------------------------------------------------------------------" << endl;
+                    cout << "-----------------------------------------------------------------------------------------------------" << endl;
+                courseCount++;
+            }
+            current = current->next;
+        }
+        if (courseCount == 0)
+        {
+            cout << "No Course Taken in The room:  " << room_Number << " "
+                 << " " << endl<<endl;
+        }
+        else
+            cout << "Room Number"<< room_Number << ": "  <<"Total Number of Class held: " << courseCount << endl<<endl;
+    }
+  //Report Generate end
 };
 
 int main()

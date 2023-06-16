@@ -1,0 +1,96 @@
+CSE101
+IntroductionToComputersI 3 OD
+CSE102
+IntroductionToCompuetersII 3 OD
+CSE103
+StructuredProgramming 4.5 Core
+CSE106
+DiscreteMathematics 3 Core
+CSE110
+ObjectOrientedProgramming 4.5 Core
+CSE200
+Computer-AidedEngineeringDrawing 1 Core
+CSE207
+DataStructures 4 Core
+CSE209
+ElectricalCircuits 4 Core
+CSE227
+NumericalMethods&ComputerProgramming 4.5 OD
+CSE246
+Algorithms 4.5 Core
+CSE251
+ElectronicCircuits 4 Core
+CSE302
+DatabaseSystems 4.5 Core
+CSE303
+StatisticsForDataScience 4 MC
+CSE325
+OperatingSystems 4 Core
+CSE345
+DigitalLogicDesign 4 Core
+CSE347
+InformationSystemAnalysis&Design 4 Core
+CSE350
+DataCommunications 4 MC
+CSE360
+ComputerArchitecture 3 Core
+CSE366
+ArtificialIntelligence 4 MC
+CSE405
+ComputerNetworks 4 Core
+CSE407
+GreenComputing 3 Core
+CSE412
+SoftwareEngineering 4 MC
+CSE420
+ComputerGraphics 4 ME
+CSE430
+SoftwareTesting&QualityAssurance 4 MC
+CSE432
+DigitalSignalProcessing 4 MC
+CSE438
+DigitalImageProcessing 4 ME
+CSE442
+Microprocessor&Microcontroller 4 MC
+CSE453
+WirelessNetworks 3 ME
+CSE464
+AdvancedDatabaseSystems 4 ME
+CSE475
+MachineLearning 4 ME
+CSE477
+DataMining 4 ME
+CSE479
+WebProgramming 4 ME
+CSE487
+CyberSecurityEthics&Law 3 Core
+CSE488
+BigDataAnalytics 4 ME
+CSE489
+MobileProgramming 4 ME
+CSE495
+ITProjectManagement&Entrepreneurship 3 Core
+ICE216
+Signals&Systems 3 NULL
+ICE310
+ElectromagneticTheory 3 NULL
+ICE313
+Microprocessors&Interfacing 4 NULL
+OCE314
+DigitalCommunications 4 NULL
+ICE370
+AppliedNumerialMethods 3 NULL
+ICE401
+VLSICircuitDesign 4 NULL
+ICE448
+InformationTheory&Coding 3 NULL
+ICE439
+EngineeringEthics 3 NULL
+ICE441
+Wireless&MobileCommunications 3 NULL
+ICE444
+TelecommunicationsNetworks&Switching 3 NULL
+ETE225
+IntroductionToControlSystems 4 NULL
+ETE319
+ElectronicPropertiesOfMaterials 3 NULL

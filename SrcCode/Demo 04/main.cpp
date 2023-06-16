@@ -185,6 +185,7 @@ public:
         cout << "3. Delete A Course From List" << endl;
         cout << "4. Reset My Course List" << endl;
         cout << "5. Save Course" << endl;
+        cout << "6. Offer Course List" << endl;
         cout << "0. Back To Home Page" << endl;
         cout << "========================================" << endl;
     }
@@ -1392,6 +1393,8 @@ public:
         if (courseAssignmentList == NULL)
         {
             cout << "No Course Assignment information found!" << endl;
+            cout << "No Course Offering Right now!" << endl;
+            return;
         }
         else
         {
@@ -1832,9 +1835,11 @@ public:
     void generateInstructorReport()
     {
         string instructorInitials;
-        cout << "Enter Faculty Initial: ";
+        cout << "Enter Faculty Initial: "; fflush(stdin);
         cin >> instructorInitials;
+        fflush(stdin);
         int courseCount = 0;
+        cout<<"Faculty Name: "<<getFacultyName(instructorInitials)<<endl<<endl;
         CourseAssignmentInfo *current = courseAssignmentList;
         while (current != nullptr)
         {
@@ -1866,12 +1871,27 @@ public:
             cout << "Total courses taken by instructor " << instructorInitials << ": " << courseCount << endl
                  << endl;
     }
-
+ 
+ string getFacultyName(string fac_intitial)
+ {
+    FacultyInfo *cur = facultyList;
+    while(cur!=NULL)
+    {
+        if(cur->fc_intital==fac_intitial)
+        {
+            return cur->name;
+        }
+        cur=cur->next;
+    }
+    return "To Be Announced";
+ }
     void generateCourseWiseReport()
     {
         string courseCode;
-        cout << "Enter Course Code Only: ";
+        cout << "Enter Course Code Only: "; fflush(stdin);
         cin >> courseCode;
+        fflush(stdin);
+        cout<<"Course Title: "<<getCourseTitle(courseCode)<<endl<<endl;
         int courseCount = 0;
         CourseAssignmentInfo *current = courseAssignmentList;
         while (current != nullptr)
@@ -1975,6 +1995,10 @@ public:
             case 5:
                 saveStudentCourse(filename);
                 cout << "Data Saved in File" << endl;
+                break;
+                case 6:
+                 displayCourseAssignmentInfo();
+                 break;
             case 0:
                 cout << "Returning to Home Page..." << endl;
                 break;

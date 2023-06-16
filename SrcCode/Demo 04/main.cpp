@@ -1985,14 +1985,16 @@ public:
     }
     void takeCourse()
     {
-        string courseCode;
+        string courseCode,s_section;
         cout << "Enter Course Code Only: ";
         cin >> courseCode;
+        cout<< "Enter Course Sections: ";
+        cin>>s_section;
         bool courseAdd = false;
         CourseAssignmentInfo *current = courseAssignmentList;
         while (current != nullptr)
         {
-            if (current->course == courseCode)
+            if (current->course == courseCode && current->section==s_section)
             {
                 if (stuCourseSelection == NULL)
                 {
@@ -2000,7 +2002,13 @@ public:
                     courseAdd = true;
                     break;
                 }
-                else if (checkCourseConflict(current))
+                else if(checkCourseDuplicateConflict(current))
+                {
+                    cout<<"This Course alrady your List."<<endl;
+                    cout<<"You can add this Section But remove that Course First... "<<endl;
+                    return;
+                }
+                else if (checkCourseDayConflict(current))
                 {
                     cout << "You can not add this course" << endl;
                     cout << "Try to add anothr section" << endl;
@@ -2028,9 +2036,23 @@ public:
             cout << "This course: " << courseCode << " IS not offer this semister" << endl
                  << endl;
     }
+    //duplicate course Conflict
+    bool checkCourseDuplicateConflict(CourseAssignmentInfo *newCourse)
+    {
+        CourseAssignmentInfo *current = stuCourseSelection;
+        while (current != nullptr)
+        {
+            if (current->course == newCourse->course)
+            {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
 
     // CONFLIC CHECK
-    bool checkCourseConflict(CourseAssignmentInfo *newCourse)
+    bool checkCourseDayConflict(CourseAssignmentInfo *newCourse)
     {
         CourseAssignmentInfo *current = stuCourseSelection;
         while (current != nullptr)
@@ -2126,7 +2148,7 @@ public:
             cout << "===== Advising Course Information =====" << endl
                  << endl
                  << endl;
-            cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+            cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
             while (temp != NULL)
             {
                 cout << "Course Name: " << temp->course << "." << temp->section << " | "
@@ -2138,7 +2160,7 @@ public:
                      << "Day: " << temp->day << " | "
                      << "Room: " << temp->room << " | " << endl;
                 // cout << endl;
-                cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+                cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
                 temp = temp->next;
             }
         }
@@ -2153,6 +2175,7 @@ public:
             current = current->next;
             delete temp;
         }
+        stuCourseSelection=NULL;
         cout << "All Course Delete Sussfully" << endl;
     }
 

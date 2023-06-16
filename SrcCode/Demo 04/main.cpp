@@ -310,7 +310,7 @@ public:
 
         cout << "Faculty information added successfully!" << endl;
     }
-
+/*
     void displayFacultyInfo()
     {
         if (facultyList == NULL)
@@ -338,6 +338,47 @@ public:
             }
         }
     }
+    */
+   void displayFacultyInfo()
+{
+    if (facultyList == NULL)
+    {
+        cout << "No faculty information found!" << endl;
+    }
+    else
+    {
+        FacultyInfo *temp = facultyList;
+        int serialNumber = 1;
+        cout << "==================================================================================================================================================================" << endl;
+        cout << "| " << left << setw(4) << "No.";
+        cout << "| " << left << setw(38) << "Name";
+        cout << "| " << left << setw(10) << "Initial";
+        cout << "| " << left << setw(25) << "Designation";
+        cout << "| " << left << setw(30) << "Email ID";
+        cout << "| " << left << setw(6) << "Ext";
+        cout << "| " << left << setw(12) << "Room No";
+        cout << "| " << left << "Mobile Number" << " |" << endl;
+        cout << "==================================================================================================================================================================" << endl;
+
+        while (temp != NULL)
+        {
+            cout << "| " << left << setw(4) << serialNumber;
+            cout << "| " << left << setw(38) << temp->name;
+            cout << "| " << left << setw(10) << temp->fc_intital;
+            cout << "| " << left << setw(25) << temp->designation;
+            cout << "| " << left << setw(30) << temp->emailID;
+            cout << "| " << left << setw(6) << temp->ext;
+            cout << "| " << left << setw(12) << temp->room;
+            cout << "| " << left << temp->mobileNumber << " |" << endl;
+
+            cout << "------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+            temp = temp->next;
+            serialNumber++;
+        }
+    }
+}
+
+
 
     // Delete Faculty info
     void deleteFacultyInfo()
@@ -880,6 +921,7 @@ public:
     }
 
     // display course information
+    /*
     void displayCourseInfo()
     {
         if (courseList == NULL)
@@ -903,6 +945,42 @@ public:
             }
         }
     }
+    */
+
+   void displayCourseInfo()
+{
+    if (courseList == NULL)
+    {
+        cout << "No Course information found!" << endl;
+    }
+    else
+    {
+        CourseInfo *temp = courseList;
+        int serialNumber = 1;
+        cout << "=============================================================================================" << endl;
+        cout << "| " << left << setw(4) << "No.";
+        cout << "| " << left << setw(12) << "Course Code";
+        cout << "| " << left << setw(38) << "Course Title";
+        cout << "| " << left << setw(15) << "Course Credits";
+        cout << "| " << left << "Course Type" << " |" << endl;
+        cout << "=============================================================================================" << endl;
+
+        while (temp != NULL)
+        {
+            cout << "| " << left << setw(4) << serialNumber;
+            cout << "| " << left << setw(12) << temp->courseCode;
+            cout << "| " << left << setw(38) << temp->courseTitle;
+            cout << "| " << left << setw(15) << temp->credits;
+            cout << "| " << left << temp->courseType << " |" << endl;
+
+            cout << "---------------------------------------------------------------------------------------------" << endl;
+            temp = temp->next;
+            serialNumber++;
+        }
+    }
+}
+
+
     // Delete course info
     void deleteCourseInfo()
     {
@@ -1388,6 +1466,7 @@ public:
         cout << "Course Assignment information added successfully!" << endl;
     }
 
+/*
     void displayCourseAssignmentInfo()
     {
         if (courseAssignmentList == NULL)
@@ -1415,7 +1494,50 @@ public:
             }
         }
     }
+*/
 
+void displayCourseAssignmentInfo()
+{
+    if (courseAssignmentList == NULL)
+    {
+        cout << "No Course Assignment information found!" << endl;
+        cout << "No Course Offering Right now!" << endl;
+        return;
+    }
+    else
+    {
+        CourseAssignmentInfo *temp = courseAssignmentList;
+        int serialNumber = 1;
+        cout << "====================================================================================" << endl;
+        cout << "| " << left << setw(4) << "No.";
+        cout << "| " << left << setw(12) << "Course Name";
+        cout << "| " << left << setw(8) << "Section";
+        cout << "| " << left << setw(10) << "Instructor";
+        cout << "| " << left << setw(10) << "Start Time";
+        cout << "| " << left << setw(10) << "End Time";
+        cout << "| " << left << setw(5) << "Day";
+        cout << "| " << left << "Room" << " |" << endl;
+        cout << "====================================================================================" << endl;
+
+        while (temp != NULL)
+        {
+            cout << "| " << left << setw(4) << serialNumber;
+            cout << "| " << left << setw(12) << temp->course;
+            cout << "| " << left << setw(8) << temp->section;
+            cout << "| " << left << setw(10) << temp->instructor;
+            cout << "| " << left << setw(10) << temp->start_time;
+            cout << "| " << left << setw(10) << temp->end_time;
+            cout << "| " << left << setw(5) << temp->day;
+            cout << "| " << left << temp->room << " |" << endl;
+
+            cout << "--------------------------------------------------------------------------------------" << endl;
+            temp = temp->next;
+            serialNumber++;
+        }
+    }
+}
+
+        
     // Delete Course Assignment info
     void deleteCourseAssignmentInfo()
     {
@@ -1832,46 +1954,67 @@ public:
     }
 
     // Faculty wise Routine
-    void generateInstructorReport()
+    
+
+
+
+void generateInstructorReport()
+{
+    string instructorInitials;
+    cout << "Enter Faculty Initial: ";
+    cin >> instructorInitials;
+    cout << endl;
+
+    fflush(stdin);
+    int courseCount = 0;
+
+    string facultyName = getFacultyName(instructorInitials);
+    
+
+    cout << "Faculty Name: " << facultyName << endl << endl;
+
+    CourseAssignmentInfo *current = courseAssignmentList;
+    while (current != nullptr)
     {
-        string instructorInitials;
-        cout << "Enter Faculty Initial: "; fflush(stdin);
-        cin >> instructorInitials;
-        fflush(stdin);
-        int courseCount = 0;
-        cout<<"Faculty Name: "<<getFacultyName(instructorInitials)<<endl<<endl;
-        CourseAssignmentInfo *current = courseAssignmentList;
-        while (current != nullptr)
+        if (current->instructor == instructorInitials)
         {
-            if (current->instructor == instructorInitials)
+            if (courseCount == 0)
             {
-                if (courseCount == 0)
-                {
-                    cout << "------------------------------------------------------------------------------------------------" << endl;
-                    cout << "------------------------------------------------------------------------------------------------" << endl;
-                }
-                cout << "Course Code: " << current->course << "." << current->section << " "
-                     << "Day: " << current->day << " "
-                     << "Start Time: " << current->start_time << " "
-                     << "End Time: " << current->end_time << " "
-                     << "Class Room: " << current->room << endl;
-                cout << "------------------------------------------------------------------------------------------------" << endl;
-                cout << "------------------------------------------------------------------------------------------------" << endl;
-                courseCount++;
+                cout << "================================================================" << endl;
+                cout << "| " << left << setw(4) << "No.";
+                cout << "| " << left << setw(11) << "Course Code";
+                cout << "| " << left << setw(5) << "Day";
+                cout << "| " << left << setw(10) << "Start Time";
+                cout << "| " << left << setw(10) << "End Time";
+                cout << "| " << left << "Class Room" << " |" << endl;
+                cout << "================================================================" << endl;
             }
-            current = current->next;
+
+            cout << "| " << left << setw(4) << courseCount + 1;
+            cout << "| " << left << setw(11) << (current->course + "." + current->section);
+            cout << "| " << left << setw(5) << current->day;
+            cout << "| " << left << setw(10) << current->start_time;
+            cout << "| " << left << setw(10) << current->end_time;
+            cout << "| " << left << current->room << " |" << endl;
+
+            cout << "-----------------------------------------------------------------" << endl;
+            courseCount++;
         }
-        if (courseCount == 0)
-        {
-            cout << "This Semister " << instructorInitials << " "
-                 << "is not taking any Course " << endl
-                 << endl;
-        }
-        else
-            cout << "Total courses taken by instructor " << instructorInitials << ": " << courseCount << endl
-                 << endl;
+        current = current->next;
     }
- 
+
+    if (courseCount == 0)
+    {
+        cout << "This semester " << instructorInitials << " is not taking any courses." << endl << endl;
+    }
+    else
+    {
+        cout << "Total courses taken by instructor " << instructorInitials << ": " << courseCount << endl << endl;
+    }
+}
+
+
+
  string getFacultyName(string fac_intitial)
  {
     FacultyInfo *cur = facultyList;
@@ -1885,85 +2028,123 @@ public:
     }
     return "To Be Announced";
  }
-    void generateCourseWiseReport()
+
+ 
+
+     void generateCourseWiseReport()
+{
+    string courseCode;
+    cout << "Enter Course Code Only: ";
+    cin >> courseCode;
+    cout << endl;
+
+    fflush(stdin);
+    string courseTitle = getCourseTitle(courseCode);
+    
+
+    cout << "Course Title: " << courseTitle << endl << endl;
+
+    int courseCount = 0;
+    CourseAssignmentInfo *current = courseAssignmentList;
+
+    while (current != nullptr)
     {
-        string courseCode;
-        cout << "Enter Course Code Only: "; fflush(stdin);
-        cin >> courseCode;
-        fflush(stdin);
-        cout<<"Course Title: "<<getCourseTitle(courseCode)<<endl<<endl;
-        int courseCount = 0;
-        CourseAssignmentInfo *current = courseAssignmentList;
-        while (current != nullptr)
+        if (current->course == courseCode)
         {
-            if (current->course == courseCode)
+            if (courseCount == 0)
             {
-                if (courseCount == 0)
-                {
-                    cout << "------------------------------------------------------------------------------------------------------" << endl;
-                    cout << "------------------------------------------------------------------------------------------------------" << endl;
-                }
-                cout << "Course Section: " << current->section << " "
-                     << "Faculty Initial: " << current->instructor << " "
-                     << "Day: " << current->day << " "
-                     << "Start Time: " << current->start_time << " "
-                     << "End Time: " << current->end_time << " "
-                     << "Class Room: " << current->room << endl;
-                cout << "-----------------------------------------------------------------------------------------------------" << endl;
-                cout << "-----------------------------------------------------------------------------------------------------" << endl;
-                courseCount++;
+                cout << "========================================================================================" << endl;
+                cout << "| " << left << setw(4) << "No.";
+                cout << "| " << left << setw(15) << "Course Section";
+                cout << "| " << left << setw(15) << "Faculty Initial";
+                cout << "| " << left << setw(5) << "Day";
+                cout << "| " << left << setw(10) << "Start Time";
+                cout << "| " << left << setw(10) << "End Time";
+                cout << "| " << left << "Class Room" << " |" << endl;
+                cout << "==========================================================================================" << endl;
             }
-            current = current->next;
+
+            cout << "| " << left << setw(4) << courseCount + 1;
+            cout << "| " << left << setw(15) << current->section;
+            cout << "| " << left << setw(15) << current->instructor;
+            cout << "| " << left << setw(5) << current->day;
+            cout << "| " << left << setw(10) << current->start_time;
+            cout << "| " << left << setw(10) << current->end_time;
+            cout << "| " << left << current->room << " |" << endl;
+
+            cout << "------------------------------------------------------------------------------------------" << endl;
+            courseCount++;
         }
-        if (courseCount == 0)
-        {
-            cout << "This Semister " << courseCode << " "
-                 << "is not Offer " << endl
-                 << endl;
-        }
-        else
-            cout << "Total Number of Section for This Semister Course: " << courseCode << ": " << courseCount << endl
-                 << endl;
+        current = current->next;
     }
 
-    void generateRoomWiseReport()
+    if (courseCount == 0)
     {
-        string room_Number;
-        cout << "Enter Room Number: ";
-        cin >> room_Number;
-        int courseCount = 0;
-        CourseAssignmentInfo *current = courseAssignmentList;
-        while (current != nullptr)
-        {
-            if (current->room == room_Number)
-            {
-                if (courseCount == 0)
-                {
-                    cout << "------------------------------------------------------------------------------------------------------" << endl;
-                    cout << "------------------------------------------------------------------------------------------------------" << endl;
-                }
-                cout << "Course Code: " << current->course << "." << current->section << " "
-                     << "Faculty Initial: " << current->instructor << " "
-                     << "Day: " << current->day << " "
-                     << "Start Time: " << current->start_time << " "
-                     << "End Time: " << current->end_time << " " << endl;
-                cout << "-----------------------------------------------------------------------------------------------------" << endl;
-                cout << "-----------------------------------------------------------------------------------------------------" << endl;
-                courseCount++;
-            }
-            current = current->next;
-        }
-        if (courseCount == 0)
-        {
-            cout << "No Course Taken in The room:  " << room_Number << " "
-                 << " " << endl
-                 << endl;
-        }
-        else
-            cout << "Room Number" << room_Number << ": "
-                 << "Total Number of Class held: " << courseCount << endl
-                 << endl;
+        cout << "This semester does not offer the course with code: " << courseCode << endl << endl;
     }
+    else
+    {
+        cout << "Total Number of Sections for this semester course (" << courseCode << "): " << courseCount << endl << endl;
+    }
+}
+
+
+
+void generateRoomWiseReport()
+{
+    string roomNumber;
+    cout << "Enter Room Number: ";
+    cin >> roomNumber;
+    cout << endl;
+
+    int courseCount = 0;
+    CourseAssignmentInfo *current = courseAssignmentList;
+
+    while (current != nullptr)
+    {
+        if (current->room == roomNumber)
+        {
+            if (courseCount == 0)
+            {
+                cout << "==========================================================================================" << endl;
+                cout << "| " << left << setw(4) << "No.";
+                cout << "| " << left << setw(15) << "Course Code";
+                cout << "| " << left << setw(15) << "Section";
+                cout << "| " << left << setw(15) << "Faculty Initial";
+                cout << "| " << left << setw(5) << "Day";
+                cout << "| " << left << setw(10) << "Start Time";
+                cout << "| " << left << setw(10) << "End Time" << " |" << endl;
+                cout << "==========================================================================================" << endl;
+            }
+
+            cout << "| " << left << setw(4) << courseCount + 1;
+            cout << "| " << left << setw(15) << current->course;
+            cout << "| " << left << setw(15) << current->section;
+            cout << "| " << left << setw(15) << current->instructor;
+            cout << "| " << left << setw(5) << current->day;
+            cout << "| " << left << setw(10) << current->start_time;
+            cout << "| " << left << setw(10) << current->end_time << " |" << endl;
+
+            cout << "------------------------------------------------------------------------------------------" << endl;
+            courseCount++;
+        }
+        current = current->next;
+    }
+
+    if (courseCount == 0)
+    {
+        cout << "No courses are scheduled in room number: " << roomNumber << endl << endl;
+    }
+    else
+    {
+        cout << "Total Number of Classes held in room number " << roomNumber << ": " << courseCount << endl << endl;
+    }
+}
+
+
+
+ 
+
     // Report Generate end
     // advising page
     void advisingPage()
@@ -2159,36 +2340,54 @@ public:
             temp->next = newCourseAssignment;
         }
     }
-    void showMyCourseList()
+    
+
+void showMyCourseList()
+{
+    if (stuCourseSelection == NULL)
     {
-
-        if (stuCourseSelection == NULL)
-        {
-            cout << "No Course found! Please add course First" << endl;
-        }
-        else
-        {
-            CourseAssignmentInfo *temp = stuCourseSelection;
-            cout << "===== Advising Course Information =====" << endl
-                 << endl
-                 << endl;
-            cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-            while (temp != NULL)
-            {
-                cout << "Course Name: " << temp->course << "." << temp->section << " | "
-                     << "Course Title: " << getCourseTitle(temp->course) << " | "
-
-                     << "Instructor: " << temp->instructor << " | "
-                     << "Start time: " << temp->start_time << " | "
-                     << "End time: " << temp->end_time << " | "
-                     << "Day: " << temp->day << " | "
-                     << "Room: " << temp->room << " | " << endl;
-                // cout << endl;
-                cout << "----------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-                temp = temp->next;
-            }
-        }
+        cout << "No Course found! Please add courses first." << endl;
     }
+    else
+    {
+        CourseAssignmentInfo *temp = stuCourseSelection;
+        cout << "===== Advising Course Information =====" << endl << endl;
+        cout << "=======================================================================================================================" << endl;
+        cout << "| " << left << setw(5) << "No.";
+        cout << "| " << left << setw(15) << "Course Code";
+        cout << "| " << left << setw(30) << "Course Title";
+        cout << "| " << left << setw(15) << "Instructor";
+        cout << "| " << left << setw(10) << "Start Time";
+        cout << "| " << left << setw(10) << "End Time";
+        cout << "| " << left << setw(5) << "Day";
+        cout << "| " << left << setw(10) << "Room" << " |" << endl;
+        cout << "=======================================================================================================================" << endl;
+
+        int courseCount = 0;
+
+        while (temp != NULL)
+        {
+            cout << "| " << left << setw(5) << courseCount + 1;
+            cout << "| " << left << setw(15) << temp->course;
+            cout << "| " << left << setw(30) << getCourseTitle(temp->course);
+            cout << "| " << left << setw(15) << temp->instructor;
+            cout << "| " << left << setw(10) << temp->start_time;
+            cout << "| " << left << setw(10) << temp->end_time;
+            cout << "| " << left << setw(5) << temp->day;
+            cout << "| " << left << setw(10) << temp->room << " |" << endl;
+            cout << "-----------------------------------------------------------------------------------------------------------------------" << endl;
+
+            courseCount++;
+            temp = temp->next;
+        }
+
+        cout << endl;
+        cout << "Total Courses Enrolled: " << courseCount << endl;
+    }
+}
+
+
+
     void resetMyCourseList()
     {
         CourseAssignmentInfo *current = stuCourseSelection;

@@ -2368,7 +2368,7 @@ void showMyCourseList()
         while (temp != NULL)
         {
             cout << "| " << left << setw(5) << courseCount + 1;
-            cout << "| " << left << setw(15) << temp->course;
+            cout << "| " << temp->course<<"."<<left << setw(8) << temp->section;
             cout << "| " << left << setw(30) << getCourseTitle(temp->course);
             cout << "| " << left << setw(15) << temp->instructor;
             cout << "| " << left << setw(10) << temp->start_time;

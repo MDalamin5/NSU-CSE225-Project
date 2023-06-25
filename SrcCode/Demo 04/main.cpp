@@ -2216,10 +2216,10 @@ void generateRoomWiseReport()
                 else if (checkCourseDayConflict(current))
                 {
                     cout << "You can not add this course" << endl;
-                    cout << "Try to add anothr section" << endl;
+                    cout << "You have anther Class in this" << endl;
                     return;
                 }
-                else if (!checkCreditLimit(current))
+                else if (checkCreditLimit(current))
                 {
                     cout << "Credit limit is exceeded." << endl;
                     return;
@@ -2287,12 +2287,17 @@ void generateRoomWiseReport()
         {
             if (current->instructor == newCourse->instructor)
             {
-                totalCredits += giveCourseCradit(newCourse->course);
+                totalCredits += giveCourseCradit(current->course);
+               // cout<<" TOtal cr: "<<totalCredits<<endl;
             }
             current = current->next;
         }
         totalCredits += giveCourseCradit(newCourse->course);
-        return totalCredits <= 11;
+        //cout<<" otuside TOtal cr: "<<totalCredits<<endl;
+        if (totalCredits>11)
+        return true;
+        else
+        return false;
     }
 
     double giveCourseCradit(string courseName)
@@ -2341,7 +2346,7 @@ void generateRoomWiseReport()
         }
     }
     
-
+/*
 void showMyCourseList()
 {
     if (stuCourseSelection == NULL)
@@ -2376,6 +2381,49 @@ void showMyCourseList()
             cout << "| " << left << setw(5) << temp->day;
             cout << "| " << left << setw(10) << temp->room << " |" << endl;
             cout << "-----------------------------------------------------------------------------------------------------------------------" << endl;
+
+            courseCount++;
+            temp = temp->next;
+        }
+
+        cout << endl;
+        cout << "Total Courses Enrolled: " << courseCount << endl;
+    }
+}
+*/
+
+
+void showMyCourseList() {
+    if (stuCourseSelection == NULL) {
+        cout << "No Course found! Please add courses first." << endl;
+    } else {
+        CourseAssignmentInfo* temp = stuCourseSelection;
+        cout << "===== Advising Course Information =====" << endl << endl;
+        cout << "===============================================================================================================================" << endl;
+        cout << "| " << left << setw(5) << "No.";
+        cout << "| " << left << setw(15) << "Course Code";
+        cout << "| " << left << setw(30) << "Course Title";
+        cout << "| " << left << setw(15) << "Instructor";
+        cout << "| " << left << setw(10) << "Start Time";
+        cout << "| " << left << setw(10) << "End Time";
+        cout << "| " << left << setw(5) << "Day";
+        cout << "| " << left << setw(10) << "Room";
+        cout << "| " << left << setw(7) << "Credit" << " |" << endl;  // Added the credit column
+        cout << "===============================================================================================================================" << endl;
+
+        int courseCount = 0;
+
+        while (temp != NULL) {
+            cout << "| " << left << setw(5) << courseCount + 1;
+            cout << "| " << temp->course << "." << left << setw(8) << temp->section;
+            cout << "| " << left << setw(30) << getCourseTitle(temp->course);
+            cout << "| " << left << setw(15) << temp->instructor;
+            cout << "| " << left << setw(10) << temp->start_time;
+            cout << "| " << left << setw(10) << temp->end_time;
+            cout << "| " << left << setw(5) << temp->day;
+            cout << "| " << left << setw(10) << temp->room;
+            cout << "| " << left << setw(7) << giveCourseCradit(temp->course) << " |" << endl;  // Added the credit field
+            cout << "-------------------------------------------------------------------------------------------------------------------------------" << endl;
 
             courseCount++;
             temp = temp->next;
